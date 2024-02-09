@@ -1,0 +1,49 @@
+{% extends 'employee/layout/employee.html' %}
+{% load static %}
+{% block title %}
+Home
+{% endblock title %}
+{% block styles %}
+<style>
+    .np-month-sm-brand{
+        display: none;
+    }
+</style>
+{% endblock styles %}
+{% block breadcrumb %}
+<div style="width: 100%">
+    <div class="block-content bg-pattern" style="background-image: url('{%static "employee/assets/media/various/bg-pattern-inverse.png"%}');">
+        <div class="py-20 text-center">
+            <h1 class="font-w700 mb-10">Dashboard</h1>
+            <h2 class="h4 font-w400 text-muted">Welcome,  {{ user.get_username }}</h2>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-4">
+        <div class="block">
+            <div class="block-content">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="block">
+            <div class="block-content">
+                <p class="text-center py-100"><iframe sandbox="" frameBorder="0" frameBorder="0" src="https://kwize.com/quote-of-the-day/embed/&txt=0&font=&color=000000&background=ffffff&fid=0"></iframe></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="block">
+            <div class="block-content">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+{% endblock script %}
+

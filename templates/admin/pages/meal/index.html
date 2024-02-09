@@ -1,0 +1,76 @@
+{% extends 'admin/layout/admin.html' %}
+{% load static %}
+{% block title %}
+Meal
+{% endblock title %}
+{% block breadcrumb %}
+<a class="breadcrumb-item" href="/admin">Home</a>
+<span class="breadcrumb-item active">Meal</span>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="block-header block-header-default">
+    <h3 class="block-title">Meal</h3>
+    <div class="block-options">
+    </div>
+</div>
+<div class="block-content block-content-full" style="width: 100% !important">
+    <table class="display" style="width:100%"  id="data-table">
+    <thead>
+        <tr>                
+            <th>Day</th>                    
+            <th>Breakfast</th>   
+            <th>lunch</th>   
+            <th>Dinner</th>   
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in meals %}
+        <tr>
+            <td> {{e.day}} </td>
+            <td><a href="#" id="breakfast" class="editable" data-required="required" data-type="textarea" data-pk="{{e.id}}" data-title="Enter hours">{{e.breakfast}}</a></td>
+            <td><a href="#" id="lunch" class="editable" data-required="required" data-type="textarea" data-pk="{{e.id}}" data-title="Enter hours">{{e.lunch}}</a></td>
+            <td><a href="#" id="dinner" class="editable" data-required="required" data-type="textarea" data-pk="{{e.id}}" data-title="Enter hours">{{e.dinner}}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+{% endblock content %}
+{% block script %}
+
+<link href='{%static "admin/assets/TableEditable/x-editable.css"%}'  rel="stylesheet"/>
+<link href='{%static "admin/assets/TableEditable/editable.css"%}'  rel="stylesheet"/>
+<script src='{%static "admin/assets/TableEditable/x-editable.js"%}'></script>
+<script>
+    $(document).ready(function() {
+        $(document).bind('DOMNodeInserted', function(e) {
+            $.fn.editable.defaults.mode = 'inline';             
+            $('.editable').editable({
+                params: {
+                    csrfmiddlewaretoken:'{{ csrf_token }}'
+                },
+                url : "meal/edit",
+                success: function(){
+                    Codebase.helpers('notify', {
+                        align: 'right',             // 'right', 'left', 'center'
+                        from: 'bottom',                // 'top', 'bottom'
+                        type: 'success',               // 'info', 'success', 'warning', 'danger'
+                        icon: 'fa fa-info mr-5',    // Icon class
+                        message: 'Updated Sucessfully'
+                    });
+            },
+            error: function(response, newValue) {
+                    Codebase.helpers('notify', {
+                        align: 'right',             // 'right', 'left', 'center'
+                        from: 'bottom',                // 'top', 'bottom'
+                        type: 'danger',               // 'info', 'success', 'warning', 'danger'
+                        icon: 'fa fa-info mr-5',    // Icon class
+                        message: $.parseJSON(response.responseText).message
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock script %}
+

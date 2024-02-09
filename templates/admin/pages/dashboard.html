@@ -1,0 +1,203 @@
+{% extends 'admin/layout/admin.html' %}
+{% load static %}
+{% block title %}
+Home
+{% endblock title %}
+{% block styles %}
+<style>
+    .np-month-sm-brand{
+        display: none;
+    }
+</style>
+{% endblock styles %}
+{% block breadcrumb %}
+<div style="width: 100%">
+    <div class="block-content bg-pattern" style="background-image: url('{%static "admin/assets/media/various/bg-pattern-inverse.png"%}');">
+        <div class="py-20 text-center">
+            <h1 class="font-w700 mb-10">Dashboard</h1>
+            <h2 class="h4 font-w400 text-muted">Welcome, {{ user.get_username }}</h2>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="row">
+    <div class="col-6">
+        <canvas id="myChart"></canvas>
+    </div>
+    <div class="col-6">
+        <canvas id="myChart2"></canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <canvas id="myChart3"></canvas>
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+    const ctx = document.getElementById('myChart');
+    const ctx2 = document.getElementById('myChart2');
+    const ctx3 = document.getElementById('myChart3');
+    var incomeChart = new Chart(ctx2,{
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: 'Income',
+            data: [],
+            borderWidth: 1,
+            borderColor:'#f000b0',
+          }]
+        },
+        options: {
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Month',
+                        padding: {top: 10, left: 0, right: 0, bottom: 0}
+                    }
+                },
+                y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Income',
+                        padding: {top: 20, left: 0, right:0, bottom:0}
+                    }
+                }
+            },
+        responsive: true,
+        plugins: {
+              legend: {
+                  position: 'top',
+              },
+              title: {
+                  display: true,
+                  text: 'Revenue'
+              }
+          },
+        }
+    });
+    var capacityChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Capacity',
+                    data:[],
+                    //backgroundColor: '#f000b0',
+                    borderColor:'#f000b0',
+                    borderWidth: 1
+                },{
+                    label: 'Occupied',
+                    data: [],
+                    borderColor:'#226af0',
+                    borderWidth: 1
+                }]
+
+            },
+            options: {
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Block',
+                            padding: {top: 10, left: 0, right: 0, bottom: 0}
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Capacity',
+                            padding: {top: 20, left: 0, right:0, bottom: 20}
+                        }
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Block Student Capacity'
+                    }
+                }
+            }
+        });
+    var attendanceChart = new Chart(ctx3, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Present',
+                data:[],
+                //backgroundColor: '#f000b0',
+                borderColor:'#f000b0',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Date',
+                        padding: {top: 20, left: 0, right: 0, bottom: 0}
+                    }
+                },
+                y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Student Attendence',
+                        padding: {top: 30, left: 0, right:0, bottom: 20}
+                    }
+                }
+            },
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Student Attendance'
+                }
+            }
+        }
+    });
+    
+    $(document).ready(function() {
+        $.ajax({
+            url:'/admin',
+            type:'get',
+            async:false,
+            success:function(res) {   
+                capacityChart.data.labels=res.capacity.label;
+                capacityChart.data.datasets[0].data=res.capacity.capacity;
+                capacityChart.data.datasets[1].data=res.capacity.occupied;   
+                capacityChart.update();
+                incomeChart.data.labels=res.income.label;
+                incomeChart.data.datasets[0].data=res.income.income;
+                incomeChart.update();
+                attendanceChart.data.labels=res.attendence.label;
+                attendanceChart.data.datasets[0].data=res.attendence.present;
+                attendanceChart.update();
+            },
+            error: function (request, status, errorThrown) {
+                    console.log(request.responseText);
+                    //toastr.error('asdasdasd.');
+            }
+        });
+    });
+</script>
+{% endblock script %}

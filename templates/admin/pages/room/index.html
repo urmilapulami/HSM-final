@@ -1,0 +1,119 @@
+{% extends 'admin/layout/admin.html' %}
+{% load static %}
+{% block title %}
+Room
+{% endblock title %}
+{% block breadcrumb %}
+<a class="breadcrumb-item" href="/admin">Home</a>
+<a class="breadcrumb-item" href="/admin/hostel">Hostel</a>
+<span class="breadcrumb-item">{{hostel.name}}</span>
+<span class="breadcrumb-item active">Room</span>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="block-header block-header-default">
+    <h3 class="block-title">Room</h3>
+    <div class="block-options">
+        <a  class="btn btn-success" role="button" href="{{hostel.id}}/add">Add Room</a>
+    </div>
+</div>
+<div class="block-content block-content-full" style="width: 100% !important">
+    <table class="display" style="width:100%"  id="data-table">
+    <thead>
+        <tr>                
+            <th>ID</th>                    
+            <th>Room</th>                    
+            <th>Floor</th>                    
+            <th>Note</th>   
+            <th>Assign</th>   
+            <th>Student Address</th>   
+            <th>Action</th>   
+        </tr>
+    </thead>
+    </table>
+</div>
+<div class="modal fade" id="addModel" tabindex="-1" role="dialog" aria-labelledby="addModel" style="display: none; padding-right: 17px;" aria-modal="true">
+    <div class="modal-dialog" role="document" style="border-radius: 10px; overflow: hidden;">
+        <div class="modal-content">
+          <form method="POST" id="addForm">
+            {% csrf_token %}
+            <div class="block mb-0">
+                <div class="block-header bg-primary">
+                    <h3 class="block-title">Assign Room</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="si si-close"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <input type="hidden" >
+                        <div class="form-group">
+                            <div class="form-material">
+                                <label for="name">Name</label>
+                                <select required class="form-control" id="student" name="student">
+                                    <option disabled hidden selected>Select Student</option>
+                                    {% for e in students %}
+                                        <option value="{{e.id}}">{{e.email}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-alt-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-alt-success">
+                    <i class="fa fa-check"></i> submit
+                </button>
+            </div>
+          </form>
+        </div>
+    </div>
+  </div>
+{% endblock content %}
+{% block script %}
+<script>
+    var hostelId={{hostel.id}};
+    var table;
+    $(document).ready(function() {
+        table=$('#data-table').DataTable({
+            processing: true,
+            serverSide: true, 
+            scrollX: true,
+            stateSave: true,
+            ajax: '',
+            columns: [    
+                {data: 'id'},
+                {data: 'name'},
+                {data: 'floor',orderable: false},
+                {data: 'note',orderable: false},
+                {data: 'user',orderable: false},
+                {data: 'user_address',orderable: false},
+                { 
+                    orderable: false,
+                    data: null,
+                    render: function (data) {
+                        editBtn='<a class="btn btn-primary m-2" href="/admin/hostel/rooms/'+hostelId+'/'+'edit/'+data['id']+'" role="button">Edit</a>';
+                        unassignBtn='<a class="btn btn-danger m-2" href="/admin/hostel/rooms/'+hostelId+'/'+'un_assign/'+data['id']+'" role="button">Un Assign</a>';
+                        txt="'/admin/hostel/rooms/"+hostelId+"/"+"assign/"+data["id"]+"'";
+                        assignBtn='<button type="button" class="btn btn-alt-success" onclick="showModel('+txt+')">Assign</button>';
+                        if(data["user_id"]){
+                            profile='<a class="btn btn-primary m-2" href="/admin/student/view/'+data['user_id']+'" ><i class="si si-user"></i></a>';
+
+                            return editBtn+profile+unassignBtn;
+                        }
+                        
+                        return editBtn+assignBtn;
+                    },
+                }
+            ]
+        });
+    });
+    function showModel(d) { 
+        $('#addForm').attr('action', d);
+        $('#addModel').modal('show');
+    }
+    
+</script>
+{% endblock script %}
+

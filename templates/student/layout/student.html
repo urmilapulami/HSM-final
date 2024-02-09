@@ -1,0 +1,99 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="no-focus">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+        <title>{% block title %}{% endblock %}</title>
+
+        <meta name="description" content="HMS">
+        <meta name="robots" content="noindex, nofollow">
+
+        <!-- Icons -->
+        <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+        <link rel="shortcut icon" href='{%static "logo.png"%}'>
+        <!-- END Icons -->
+
+        <!-- Stylesheets -->
+
+        <!-- Fonts and Codebase framework -->
+        <link rel="stylesheet" href='{%static "student/assets/js/plugins/datatables/dataTables.bootstrap4.css"%}'>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
+        <link rel="stylesheet" id="css-main" href='{%static "student/assets/css/codebase.min.css"%}'>
+        <link rel="stylesheet" href='{%static "student/assets/js/plugins/select2/css/select2.min.css"%}'>
+        <link rel="stylesheet" href='{%static "student/assets/js/plugins/flatpickr/flatpickr.min.css"%}'>
+        <link rel="stylesheet" href='{%static "student/assets/js/plugins/magnific-popup/magnific-popup.css"%}'>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+        {% block styles %}{% endblock %}
+        <!-- END Stylesheets -->
+    </head>
+    <body>
+        <div id="page-container" class="sidebar-o enable-page-overlay side-scroll page-header-modern main-content-boxed">
+            <nav id="sidebar">
+                <!-- Sidebar Content -->
+                    {% include "student/component/sidebar.html" %}
+                <!-- Sidebar Content -->
+            </nav>
+            <!-- END Sidebar -->
+
+            <!-- Header -->
+            <header id="page-header">
+                <!-- Header Content -->                
+                    {% include "student/component/header.html" %}
+                <!-- END Header Loader -->
+            </header>
+            <!-- END Header -->
+
+            <!-- Main Container -->
+            <main id="main-container">
+
+                <!-- Page Content -->
+                <div class="content">
+                    <nav class="breadcrumb bg-white push">
+                        {% block breadcrumb %}{% endblock %}
+                    </nav>
+                    <div class="block block-rounded">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissable ted fadeIn" role="alert"data-notify-position="bottom-center" style="display: inline-block; margin: 0px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index: 1033; top: 12px; left: 176px; right: 0px; text-align: center; animation-iteration-count: 1; width: max-content;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 class="alert-heading font-size-h4 font-w400">{{ message.tags }}</h3>
+                        <p class="mb-0">{{message}}</p>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </main>
+            <!-- END Main Container -->
+
+            <!-- Footer -->
+                {% include "student/component/footer.html" %}
+            <!-- END Footer -->
+        </div>
+        <!-- END Page Container -->
+
+        <script src='{%static "student/assets/js/codebase.core.min.js"%}'></script>
+        <script src='{%static "student/assets/js/codebase.app.min.js"%}'></script>
+        <script src='{%static "student/assets/js/plugins/magnific-popup/jquery.magnific-popup.min.js"%}'></script>
+
+        <script src='{%static "student/assets/js/plugins/datatables/jquery.dataTables.min.js"%}'></script>
+        <script src='{%static "student/assets/js/plugins/datatables/dataTables.bootstrap4.min.js"%}'></script>
+        <script src='{%static "student/assets/js/plugins/select2/js/select2.full.min.js"%}'></script>
+        <script src='{%static "student/assets/js/plugins/flatpickr/flatpickr.min.js"%}'></script>
+        <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+        <script src='{%static "student/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"%}'></script>
+        <script>jQuery(function(){ Codebase.helpers(['select2','flatpickr','table-tools','magnific-popup']); });</script>
+        <script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script>
+        <script src='{%static "student/assets/js/plugins/bootstrap-wizard/jquery.bootstrap.wizard.js"%}'></script>
+        <script src='{%static "student/assets/js/pages/be_forms_wizard.min.js"%}'></script>
+        <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>
+        {% block script %}{% endblock %}
+
+    </body>
+</html>

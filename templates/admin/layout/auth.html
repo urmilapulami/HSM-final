@@ -1,0 +1,58 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="no-focus">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+        <title>{% block title %}{% endblock %}</title>
+
+        <meta name="description" content="HMS">
+        <meta name="robots" content="noindex, nofollow">
+
+        <!-- Icons -->
+        <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+        <link rel="shortcut icon" href='{%static "logo.png"%}'>
+
+        <!-- END Icons -->
+
+        <!-- Stylesheets -->
+
+        <!-- Fonts and Codebase framework -->
+        <link rel="stylesheet" href='{%static "admin/assets/js/plugins/datatables/dataTables.bootstrap4.css"%}'>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
+        <link rel="stylesheet" id="css-main" href='{%static "admin/assets/css/codebase.min.css"%}'>
+        <link rel="stylesheet" href='{%static "admin/assets/js/plugins/select2/css/select2.min.css"%}'>
+        <link rel="stylesheet" href='{%static "admin/assets/js/plugins/flatpickr/flatpickr.min.css"%}'>
+        <link rel="stylesheet" href='{%static "admin/assets/js/plugins/magnific-popup/magnific-popup.css"%}'>
+        {% block styles %}{% endblock %}
+        <!-- END Stylesheets -->
+    </head>
+    <body>
+        <div id="page-container" class="main-content-boxed">
+
+            <!-- Main Container -->
+            <main id="main-container">
+
+                <!-- Page Content -->
+                        {% block content %}{% endblock %}
+                
+                <!-- END Page Content -->
+
+            </main>
+            <!-- END Main Container -->
+        </div>
+        <!-- END Page Container -->
+
+        <script src='{%static "admin/assets/js/codebase.core.min.js"%}'></script>
+
+        <script src='{%static "admin/assets/js/codebase.app.min.js"%}'></script>
+
+        <!-- Page JS Plugins -->
+        <script src='{%static "admin/assets/js/plugins/jquery-validation/jquery.validate.min.js"%}'></script>
+
+        <!-- Page JS Code -->
+        <script src='{%static "admin/assets/js/pages/op_auth_signin.min.js"%}'></script>
+
+    </body>
+</html>

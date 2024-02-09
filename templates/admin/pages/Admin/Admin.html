@@ -1,0 +1,96 @@
+{% extends 'admin/layout/admin.html' %}
+{% load static %}
+{% block title %}
+Admin
+{% endblock title %}
+{% block breadcrumb %}
+<a class="breadcrumb-item" href="/admin">Home</a>
+<span class="breadcrumb-item active">Admin</span>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="block-header block-header-default">
+    <h3 class="block-title">Admin</h3>
+    <div class="block-options">
+        <a  class="btn btn-success" role="button" href="admin/add">Add Admin</a>
+    </div>
+</div>
+<div class="block-content block-content-full" style="width: 100% !important">
+    <table class="display" style="width:100%"  id="data-table">
+    <thead>
+        <tr>                
+            <th>User Name</th>                    
+            <th>Email</th>                    
+            <th>Address</th>   
+            <th>Contact</th>         
+            <th>Action</th>
+        </tr>
+    </thead>
+    </table>
+</div>
+{% endblock content %}
+{% block script %}
+<script>
+    var table;
+    $(document).ready(function() {
+        table=$('#data-table').DataTable({
+            processing: true,
+            serverSide: true, 
+            scrollX: true,
+            stateSave: true,
+            ajax: 'admin',
+            columns: [    
+                {data: 'username'},
+                {data: 'email'},
+                {data: 'address',orderable: false},
+                {data: 'mobile_number',orderable: false},
+                { 
+                    orderable: false,
+                    data: null,
+                    render: function (data) {
+                        activateText=(data.is_active==1)?'DeActivate':'Activate';
+                        activateClass=(data.is_active==1)?'danger':'primary';
+                        activateText=(data.is_active==1)?'DeActivate':'Activate';
+                        activateUrl=(data.is_active==1)?'/admin/admin/deactivete/'+data['id']:'/admin/admin/activate/'+data['id'];
+                        editUrl='/admin/admin/edit/'+data['id'];
+                        return '<a class="btn btn-primary m-2" href="'+editUrl+'" role="button">Edit</a><button type="button" class="btn btn-'+activateClass+'" id="activate-btn" data-url="'+activateUrl+'">'+activateText+'</button>';
+                    },
+                }
+            ]
+        });
+
+        $(document).on('click','#activate-btn', function(event){
+            event.preventDefault();
+            var actionUrl=$(this).data( "url" );
+            $.ajax({
+                type: "POST",
+                url: actionUrl,
+                data: {
+                    "csrfmiddlewaretoken": '{{ csrf_token }}',
+                },
+                success: function(data)
+                {
+                    Codebase.helpers('notify', {
+                        align: 'right',             // 'right', 'left', 'center'
+                        from: 'top',                // 'top', 'bottom'
+                        type: 'info',               // 'info', 'success', 'warning', 'danger'
+                        icon: 'fa fa-info mr-5',    // Icon class
+                        message: data.message
+                    });          
+                    table.ajax.reload();
+                },
+                error:function(err){
+                    Codebase.helpers('notify', {
+                        align: 'right',             // 'right', 'left', 'center'
+                        from: 'bottom',                // 'top', 'bottom'
+                        type: 'danger',               // 'info', 'success', 'warning', 'danger'
+                        icon: 'fa fa-info mr-5',    // Icon class
+                        message: $.parseJSON(err.responseText).message
+                    });
+                }
+            });
+        });
+    });
+    
+</script>
+{% endblock script %}
+

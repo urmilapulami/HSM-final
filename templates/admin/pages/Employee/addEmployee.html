@@ -1,0 +1,153 @@
+{% extends 'admin/layout/admin.html' %}
+{% load static %}
+{% block title %}
+Employees
+{% endblock title %}
+{% block styles %}
+
+<style>
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+        color: #f8f9fa;
+        cursor: pointer;
+        display: inline-block;
+        font-weight: bold;
+        margin-right: 7px;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        float: left;
+        margin-right: 10px;
+        margin-top: 5px;
+        padding: 0 5px;
+        height: 22px;
+        line-height: 22px;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        background-color: #3f9ce8;
+        border: none;
+        border-radius: 3px;
+    }
+</style>
+{% endblock styles %}
+{% block breadcrumb %}
+<a class="breadcrumb-item" href="/admin">Home</a>
+<a class="breadcrumb-item" href="/admin/employee">Employees</a>
+<span class="breadcrumb-item active">Add Employees</span>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="block-header block-header-default">
+    <h3 class="block-title">Add Employees</h3>
+    <div class="block-options">
+    </div>
+</div>
+<div class="block-content block-content-full   animated fadeIn">
+    <div class="row justify-content-center py-20">
+        <div class="col-xl-6">
+           <form action="/admin/employee/add" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+                <div class="form-group">
+                    <div class="form-material">
+                        <input required type="text" class="form-control" id="username" name="username" placeholder="Enter User Name" >
+                        <label for="username">User Name</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-material">
+                        <input required type="text" class="form-control" id="password1" name="password1" placeholder="Enter Password" >
+                        <label for="password1">Password</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-material">
+                        <input required type="text" class="form-control" id="password2" name="password2" placeholder="Confirm Password" >
+                        <label for="password2">Confirm Password</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-material">
+                        <input required type="email" class="form-control" id="email" name="email" placeholder="Enter Email" >
+                        <label for="email">Email</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-material">
+                        <input required type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name" >
+                        <label for="first_name">First Name</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-material">
+                        <input required type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name" >
+                        <label for="last_name">Last Name</label>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="form-material">
+                        <select name="gender" class="form-control selectpicker" id="gender" name="gender" required>
+                            <option disabled selected>Select Gender</option>
+                                <option  value="male">Male</option>
+                                <option  value="female" >Female</option>
+                        </select>
+                        <label for="gender">Gender</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-material">
+                        <input required type="text" class="form-control" id="mobile_number" name="mobile_number" placeholder="Enter Mobile Number">
+                        <label for="mobile_number">Mobile Number</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-material">
+                        <input  required type="text" class="form-control" id="address" name="address" placeholder="Enter Address">
+                        <label for="address">Address</label>
+                    </div>
+                </div>
+                <!-- <div class="form-group">
+                    <div class="form-material">
+                        <input type="file" id="image" name="image" onchange="readURL(this,'#selected_logo')" accept="image/jpeg, image/png, image/jpg">
+                        <label for="image">Profile Image</label>
+                    </div>
+                </div> -->
+                <!-- <img id="selected_logo" src="" style="height: 127px;width: auto;border-radius: 18px;margin: 12px;"/> -->
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-alt-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% if errors %}
+    {% for error in errors %}
+        {% for t_error in error %}
+            <div class="alert alert-danger alert-dismissable ted fadeIn" role="alert"data-notify-position="bottom-center" style="display: inline-block; margin: 0px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index: 1033; top: 12px; left: 176px; right: 0px; text-align: center; animation-iteration-count: 1; width: max-content;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {% for message in t_error.messages %}
+                    <p class="mb-0">{{message}}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+{% endblock content %}
+{% block script %}
+<script>
+    $(document).ready(function(){
+        $('.selectpicker').select2();
+    });
+    function readURL(input,selector) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $(selector)
+                .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    } 
+</script>
+{% endblock script %}
+

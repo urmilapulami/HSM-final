@@ -1,0 +1,58 @@
+{% extends 'admin/layout/admin.html' %}
+{% load static %}
+{% block title %}
+Profile
+{% endblock title %}
+{% block breadcrumb %}
+<a class="breadcrumb-item" href="/admin">Home</a>
+<span class="breadcrumb-item active">Profile</span>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="bg-image bg-image-bottom" style="background-image: url('{%static "admin/assets/media/photos/photo30.jpg"%}');background-position-y: 35% !important;">
+    <div class="bg-primary-dark-op py-30">
+        <div class="content content-full text-center">
+            <!-- Avatar -->
+            <div class="mb-15">
+                
+                    <div class="js-gallery">
+                        <div class="animated fadeIn">
+                            <a class="img-link img-link-zoom-in img-lightbox" href='{%static "admin/assets/media/avatars/avatar15.jpg"%}'>
+                                <img style="margin: 0 0 0 85px;height:130px;width:130px" class="img-avatar img-avatar96 img-avatar-thumb img-fluid" src='{%static "admin/assets/media/avatars/avatar15.jpg"%}' alt="">
+                            </a>
+                            <a class="btn btn-rounded btn-alt-primary" href="/admin" style="float: right">
+                                <i class="fa fa-pencil mr-5"></i>Profile
+                            </a>
+                        </div>
+                    </div>
+            </div>
+            <!-- END Avatar -->
+
+            <!-- Personal -->
+            <h1 class="h3 text-white font-w700 mb-10">Admin</h1>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <!-- Simple Wizard -->
+    <div class="js-wizard-simple block">
+        <!-- Step Tabs -->
+        <ul class="nav nav-tabs nav-tabs-alt nav-fill" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" href="#wizard-simple-step1" data-toggle="tab">Profile</a>
+            </li>
+        </ul>
+        <!-- END Step Tabs -->
+
+            <div class="block-content block-content-full tab-content" style="min-height: 265px;">
+                <!-- Step 1 -->
+                <div class="tab-pane active" id="wizard-simple-step1" role="tabpanel">
+                    Personal
+                </div>
+            </div>
+    </div>
+    <!-- END Simple Wizard -->
+</div>
+{% endblock content %}
+
+

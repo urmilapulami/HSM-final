@@ -1,0 +1,65 @@
+{% extends 'admin/layout/admin.html' %}
+{% load static %}
+{% block title %}
+Billing
+{% endblock title %}
+{% block breadcrumb %}
+<a class="breadcrumb-item" href="/admin">Home</a>
+<span class="breadcrumb-item active">Billing</span>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="block-header block-header-default">
+    <h3 class="block-title">Billing</h3>
+    <div class="block-options">
+        <a  class="btn btn-success" role="button" href="billing/add">Add Billing</a>
+    </div>
+</div>
+<div class="block-content block-content-full" style="width: 100% !important">
+    <table class="display" style="width:100%"  id="data-table">
+    <thead>
+        <tr>  
+            <th>Student</th>   
+            <th>Student Address</th>                
+            <th>Date</th>                    
+            <th>Amount</th>  
+            <th>Remark</th>   
+            <th>Action</th>   
+        </tr>
+    </thead>
+    </table>
+</div>
+{% endblock content %}
+{% block script %}
+<script>
+    var table;
+    $(document).ready(function() {
+        table=$('#data-table').DataTable({
+            processing: true,
+            serverSide: true, 
+            scrollX: true,
+            stateSave: true,
+            searching: false,
+            ajax: 'billing',
+            columns: [  
+                {data: 'user',orderable: false},
+                {data: 'user_address',orderable: false},  
+                {data: 'date',orderable: false},
+                {data: 'amount',orderable: false},
+                {data: 'remark',orderable: false},
+                { 
+                    orderable: false,
+                    data: null,
+                    render: function (data) {
+                        if(data["user_id"]){
+                            profile='<a class="btn btn-primary m-2" href="/admin/student/view/'+data['user_id']+'" ><i class="si si-user"></i></a>';
+                            return profile;
+                        }
+                    },
+                }
+            ]
+        });
+    });
+    
+</script>
+{% endblock script %}
+

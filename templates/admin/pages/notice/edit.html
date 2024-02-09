@@ -1,0 +1,73 @@
+{% extends 'admin/layout/admin.html' %}
+{% load static %}
+{% block title %}
+Notice
+{% endblock title %}
+{% block styles %}
+
+<style>
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+        color: #f8f9fa;
+        cursor: pointer;
+        display: inline-block;
+        font-weight: bold;
+        margin-right: 7px;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        float: left;
+        margin-right: 10px;
+        margin-top: 5px;
+        padding: 0 5px;
+        height: 22px;
+        line-height: 22px;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        background-color: #3f9ce8;
+        border: none;
+        border-radius: 3px;
+    }
+</style>
+{% endblock styles %}
+{% block breadcrumb %}
+<a class="breadcrumb-item" href="/admin">Home</a>
+<a class="breadcrumb-item" href="/admin/notice">Notice</a>
+<span class="breadcrumb-item active">Edit Notice</span>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="block-header block-header-default">
+    <h3 class="block-title">Edit Notice</h3>
+    <div class="block-options">
+    </div>
+</div>
+<div class="block-content block-content-full   animated fadeIn">
+    <div class="row justify-content-center py-20">
+        <div class="col-xl-6">
+           <form action="/admin/notice/edit/{{data.id}}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" class="js-flatpickr form-control bg-white js-flatpickr-enabled flatpickr-input"  value="{{data.date}}"id="date" name="date"required>
+                
+                <div class="form-group">
+                    <div class="form-material">
+                        <textarea class="form-control ckeditor" name="notice" cols="30" rows="10" required> {{data.notice}}</textarea>
+                        <label for="message">Message</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-alt-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script>
+    $(document).ready(function(){
+       $('.ckeditor').ckeditor();
+    });
+</script>
+{% endblock script %}
+

@@ -1,0 +1,89 @@
+{% extends 'admin/layout/admin.html' %}
+{% load static %}
+{% block title %}
+Hostel
+{% endblock title %}
+{% block breadcrumb %}
+<a class="breadcrumb-item" href="/admin">Home</a>
+<span class="breadcrumb-item active">Hostel</span>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="block-header block-header-default">
+    <h3 class="block-title">Hostel</h3>
+    <div class="block-options">
+        <a  class="btn btn-success" role="button" href="hostel/add">Add Hostel</a>
+    </div>
+</div>
+<div class="block-content block-content-full" style="width: 100% !important">
+    <table class="display" style="width:100%"  id="data-table">
+    <thead>
+        <tr>                
+            <th>ID</th>                    
+            <th>Hostel</th>                    
+            <th>Note</th>   
+            <th>Action</th>   
+        </tr>
+    </thead>
+    </table>
+</div>
+<div class="block">
+    <div class="block-header block-header-default">
+        <h3 class="block-title">Change Request</h3>
+    </div>
+    <div class="block-content">
+        <table class="table table-hover table-vcenter">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th class="d-none d-sm-table-cell" >Room</th>
+                    <th class="text-center" style="width: 100px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in c_rooms %}
+                <tr>
+                    <td> {{e.user.email}} </td>
+                    <td> {{e.room.name}} </td>
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <a class="btn btn-primary m-2" href="/admin/hostel/change_request/approve/{{e.id}}" role="button">Approve</a>
+                            <a class="btn btn-danger m-2" href="/admin/hostel/change_request/reject/{{e.id}}" role="button">Reject</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script>
+    var table;
+    $(document).ready(function() {
+        table=$('#data-table').DataTable({
+            processing: true,
+            serverSide: true, 
+            scrollX: true,
+            stateSave: true,
+            ajax: 'hostel',
+            columns: [    
+                {data: 'id'},
+                {data: 'name'},
+                {data: 'note',orderable: false},
+                { 
+                    orderable: false,
+                    data: null,
+                    render: function (data) {
+                        editBtn='<a class="btn btn-primary m-2" href="/admin/hostel/edit/'+data['id']+'" role="button">Edit</a>';
+                        roomBtn='<a class="btn btn-primary m-2" href="/admin/hostel/rooms/'+data['id']+'" role="button">Rooms</a>';
+                        return editBtn+roomBtn;
+                    },
+                }
+            ]
+        });
+    });
+    
+</script>
+{% endblock script %}
+

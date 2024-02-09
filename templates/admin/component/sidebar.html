@@ -1,0 +1,71 @@
+{% load static %}
+
+<div class="sidebar-content">
+    <!-- Side Header -->
+    <div class="content-header content-header-fullrow px-15">
+        <!-- Mini Mode -->
+        <div class="content-header-section sidebar-mini-visible-b">
+            <!-- Logo -->
+            <span class="content-header-item font-w700 font-size-xl float-left animated fadeIn">
+                <span class="text-dual-primary-dark">R</span><span class="text-primary">H</span>
+            </span>
+            <!-- END Logo -->
+        </div>
+        <!-- END Mini Mode -->
+
+        <!-- Normal Mode -->
+        <div class="content-header-section text-center align-parent sidebar-mini-hidden">
+            <!-- Close Sidebar, Visible only on mobile screens -->
+            <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+            <button type="button" class="btn btn-circle btn-dual-secondary d-lg-none align-v-r" data-toggle="layout" data-action="sidebar_close">
+                <i class="fa fa-times text-danger"></i>
+            </button>
+            <!-- END Close Sidebar -->
+
+            <!-- Logo -->
+            <div class="content-header-item">
+                <a class="" href="/admin">
+                    <img src='{%static "logo.png"%}' style="margin: 0 0 0 -34px; height: auto; width: 40%;">
+                    <!-- <img src='{%static "logo.png"%}' height="35px" width="35px">
+                        <span class="font-size-xl" style="color: #0172aa">Rustic</span><span class="font-size-xl warning" style="color: #e15d3a;">Hostel</span> -->
+                </a>
+            </div>
+            <!-- END Logo -->
+        </div>
+        <!-- END Normal Mode -->
+    </div>
+    <!-- END Side Header -->
+
+
+    <!-- Side Navigation -->
+    <div class="content-side content-side-full">
+        <ul class="nav-main">
+            <li>
+                <a class="{% if request.path == '/admin/' %}active{% endif %}" href="/admin"><i class="si si-cup"></i><span class="sidebar-mini-hide">Dashboard</span></a>
+            </li>
+            <li>
+                <a class="{% if request.path == '/admin/student' %}active{% endif %}" href="/admin/student"><i class="si si-users"></i><span class="sidebar-mini-hide">Student</span></a>
+            </li>
+
+            <li>
+                <a class="{% if request.path == '/admin/hostel' %}active{% endif %}" href="/admin/hostel"><i class="si si-drawer"></i><span class="sidebar-mini-hide">Room Management</span></a>
+            </li>
+            <li>
+                <a class="{% if request.path == '/admin/meal' %}active{% endif %}" href="/admin/meal"><i class="si si-pie-chart"></i><span class="sidebar-mini-hide">Meal Management</span></a>
+            </li>
+            <li>
+                <a class="{% if request.path == '/admin/notice' %}active{% endif %}" href="/admin/notice"><i class="si si-note"></i><span class="sidebar-mini-hide">Notice Board</span></a>
+            </li>
+                <a class="{% if request.path == '/admin/billing' %}active{% endif %}" href="/admin/billing"><i class="si si-calculator"></i><span class="sidebar-mini-hide">Billing</span></a>
+            </li>
+            <li>
+                <a class="{% if request.path == '/admin/employee' %}active{% endif %}" href="/admin/employee"><i class="si si-users"></i><span class="sidebar-mini-hide">Employee</span></a>
+            </li>
+            <li>
+                <a class="{% if request.path == '/admin/admin' %}active{% endif %}" href="/admin/admin"><i class="si si-users"></i><span class="sidebar-mini-hide">Admin</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    <!-- END Side Navigation -->
+</div>

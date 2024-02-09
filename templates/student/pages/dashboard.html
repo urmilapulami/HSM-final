@@ -1,0 +1,128 @@
+{% extends 'student/layout/student.html' %}
+{% load static %}
+{% block title %}
+Home
+{% endblock title %}
+{% block styles %}
+<link rel="stylesheet" href='{%static "styles.css"%}'>
+
+<style>
+    .np-month-sm-brand{
+        display: none;
+    }
+</style>
+{% endblock styles %}
+{% block breadcrumb %}
+<div style="width: 100%">
+    <div class="block-content bg-pattern" style="background-image: url('{%static "student/assets/media/various/bg-pattern-inverse.png"%}');">
+        <div class="py-20 text-center">
+            <h1 class="font-w700 mb-10">Dashboard</h1>
+            <h2 class="h4 font-w400 text-muted">Welcome,  {{ user.get_username }}</h2>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="block">
+            <div class="block-header block-header-default">
+                <h3 class="block-title">Notice</h3>
+            </div>
+            <div class="block-content">
+                <table class="display" style="width:100%"  id="data-table">
+                    <thead>
+                        <tr>                
+                            <th>Date</th>                    
+                            <th>Notice</th>  
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<button class="open-button"onclick="openForm()">Chat</button>
+
+<div class="chat-popup" id="myForm">
+   <div class="chat-container">
+      <div id="chat" class="chat-box"></div>
+      <input type="text" id="user-input" placeholder="Type your message...">
+      <button onclick="sendMessage()">Send</button>
+      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+<script>
+    var table;
+    $(document).ready(function() {
+        table=$('#data-table').DataTable({
+            processing: true,
+            serverSide: true, 
+            scrollX: true,
+            stateSave: true,
+            searching: false,
+            ajax: 'notice',
+            columns: [    
+                {data: 'date',orderable: false,width:100},
+                {data: 'notice',orderable: false},
+            ]
+        });
+    });
+</script>
+<script src='{%static "frontend/js/custom.js"%}'></script>
+   <script>
+      function openForm() {
+         document.getElementById("myForm").style.display = "block";
+      }
+
+      function closeForm() {
+         document.getElementById("myForm").style.display = "none";
+      }
+   </script>
+   <script>
+      document.addEventListener('DOMContentLoaded', function () {
+       // Initial system message
+       appendMessage('Hostel', 'Hello! How can I help you today?');
+     
+       // Function to send user message to the server
+       window.sendMessage = function (){
+         const userInput = document.getElementById('user-input').value;
+         if (userInput.trim() === '') return;
+         appendMessage('You', userInput);
+         $.ajax({
+           type: "POST",
+           url: '/chat',
+           data: {
+               "csrfmiddlewaretoken": '{{ csrf_token }}',
+               "message": encodeURIComponent(userInput),
+           },
+           success: function(data)
+           {
+             const botReply = data.reply || 'I have no response.';
+             appendMessage('Hostel', botReply);
+           },
+           error:function(err){
+             console.error('Error:', err.message);
+             appendMessage('Hostel', 'Oops! Something went wrong.');
+           }
+         });
+         document.getElementById('user-input').value = '';
+       }
+       function appendMessage(sender, message) {
+         const chatBox = document.getElementById('chat');
+         const messageElement = document.createElement('div');
+         messageElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
+         chatBox.appendChild(messageElement);
+     
+         // Scroll to the bottom of the chat box
+         chatBox.scrollTop = chatBox.scrollHeight;
+       }
+   });
+   </script>
+
+
+{% endblock script %}
+

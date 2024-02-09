@@ -1,0 +1,49 @@
+{% extends 'student/layout/student.html' %}
+{% load static %}
+{% block title %}
+Billing
+{% endblock title %}
+{% block breadcrumb %}
+<a class="breadcrumb-item" href="/student">Home</a>
+<span class="breadcrumb-item active">Billing</span>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="block-header block-header-default">
+    <h3 class="block-title">Billing</h3>
+    <div class="block-options">
+    </div>
+</div>
+<div class="block-content block-content-full" style="width: 100% !important">
+    <table class="display" style="width:100%"  id="data-table">
+    <thead>
+        <tr>  
+            <th>Date</th>                    
+            <th>Amount</th>  
+            <th>Remark</th>   
+        </tr>
+    </thead>
+    </table>
+</div>
+{% endblock content %}
+{% block script %}
+<script>
+    var table;
+    $(document).ready(function() {
+        table=$('#data-table').DataTable({
+            processing: true,
+            serverSide: true, 
+            scrollX: true,
+            stateSave: true,
+            searching: false,
+            ajax: 'billing',
+            columns: [  
+                {data: 'date',orderable: false},
+                {data: 'amount',orderable: false},
+                {data: 'remark',orderable: false},
+            ]
+        });
+    });
+    
+</script>
+{% endblock script %}
+

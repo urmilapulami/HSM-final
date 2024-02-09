@@ -1,0 +1,57 @@
+{% extends 'admin/layout/admin.html' %}
+{% load static %}
+{% block title %}
+Notice
+{% endblock title %}
+{% block breadcrumb %}
+<a class="breadcrumb-item" href="/admin">Home</a>
+<span class="breadcrumb-item active">Notice</span>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="block-header block-header-default">
+    <h3 class="block-title">Notice</h3>
+    <div class="block-options">
+        <a  class="btn btn-success" role="button" href="notice/add">Add Notice</a>
+    </div>
+</div>
+<div class="block-content block-content-full" style="width: 100% !important">
+    <table class="display" style="width:100%"  id="data-table">
+    <thead>
+        <tr>                
+            <th>Date</th>                    
+            <th>Notice</th>  
+            <th>Action</th>   
+        </tr>
+    </thead>
+    </table>
+</div>
+{% endblock content %}
+{% block script %}
+<script>
+    var table;
+    $(document).ready(function() {
+        table=$('#data-table').DataTable({
+            processing: true,
+            serverSide: true, 
+            scrollX: true,
+            stateSave: true,
+            searching: false,
+            ajax: 'notice',
+            columns: [    
+                {data: 'date',orderable: false},
+                {data: 'notice',orderable: false},
+                { 
+                    orderable: false,
+                    data: null,
+                    render: function (data) {
+                        editBtn='<a class="btn btn-primary m-2" href="/admin/notice/edit/'+data['id']+'" role="button">Edit</a>';
+                        return editBtn;
+                    },
+                }
+            ]
+        });
+    });
+    
+</script>
+{% endblock script %}
+
